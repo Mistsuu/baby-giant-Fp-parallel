@@ -380,5 +380,5 @@ if __name__ == '__main__':
     print(f'{G = }')
     print(f'{x = }')
     print(f'{Gx = }')
-    recoveredX = discrete_log_elliptic_curve_Fp(G, Gx, ncores=4, debug=True)
+    recoveredX = discrete_log_elliptic_curve_Fp(G, Gx, ncores=4)
     print(f'{recoveredX = }')
