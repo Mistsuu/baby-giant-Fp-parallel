@@ -287,7 +287,7 @@ def discrete_log_elliptic_curve_Fp(X, Y, ncores=4, debug=False):
         R = memManager.SharedMemory(size=fieldSize*n)
 
         # Generate L-R list for collision attack
-        if debug: print(f'[*] Creating baby and giant arrays for collision attack :)')
+        if debug: print(f'[*] Creating baby (L) and giant (R) arrays for collision attack :)')
         buildLRArray(
             L, R, 
             X, Y, 
