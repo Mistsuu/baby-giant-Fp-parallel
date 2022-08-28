@@ -13,7 +13,7 @@ import sys
 import os
 def buildCythonModules():
     pythonPath = sys.executable
-    os.system(f"{pythonPath} cython/setupCython.py build_ext --build-lib cython/ --build-temp cython/")
+    os.system(f"\"{pythonPath}\" cython/setupCython.py build_ext --build-lib cython/ --build-temp cython/")
 
 try:
     sys.path.append("cython/")
