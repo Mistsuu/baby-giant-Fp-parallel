@@ -315,8 +315,8 @@ def discrete_log_elliptic_curve_Fp(X, Y, ncores=4):
         n = int(1 + isqrt(X.order()))
         p = int(X[0].parent().characteristic())
         assert is_prime(p), ValueError("Elliptic curve must be in prime field!")
-        print(f"[*] Debug: n={n}")
-        print(f"[*] Debug: p={p}")
+        print(f"[*] Debug: n = {n}")
+        print(f"[*] Debug: p = {p}")
         
         # Size of the arrays for baby-step giant-step
         indexSize = n.bit_length() // 8 + 1
@@ -354,10 +354,15 @@ def discrete_log_elliptic_curve_Fp(X, Y, ncores=4):
 
         #################### PART 4: GET IT!!! ########################
         # After <ncores> sublists of L-R is sorted, 
-        # find the common element.
+        # find the common point with similar X-coordinates.
         k = None
         for l, r in lr:
+            # -- Case 1:  l*X = Y - r*n*X
             k = l + r*n
+            if X*k == Y:
+                break
+            # -- Case 2: -l*X = Y - r*n*X
+            k = (r*n - l) % int(X.order())
             if X*k == Y:
                 break
         

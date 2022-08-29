@@ -1,3 +1,4 @@
+from ast import Yield
 from sage.all                   import *
 from tqdm                       import tqdm
 from multiprocessing            import Process, Queue
@@ -311,10 +312,15 @@ def discrete_log_elliptic_curve_Fp(X, Y, ncores=4, debug=False):
 
         #################### PART 4: GET IT!!! ########################
         # After <ncores> sublists of L-R is sorted, 
-        # find the common element.
+        # find the common point with similar X-coordinates.
         k = None
         for l, r in lr:
+            # -- Case 1:  l*X = Y - r*n*X
             k = l + r*n
+            if X*k == Y:
+                break
+            # -- Case 2: -l*X = Y - r*n*X
+            k = (r*n - l) % int(X.order())
             if X*k == Y:
                 break
         
