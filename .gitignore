@@ -1,0 +1,3 @@
+cython/*
+!cython/*.pyx
+!cython/setupCython.pys
