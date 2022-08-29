@@ -291,18 +291,20 @@ def searchLRArray(L, R, n: int, p: int, ncores):
         # Start all processes
         for future in futures:
             future.start()
-
+    
+        # Wait for all process to finish :)
         for future in futures:
             future.join()
 
+        # Close all progress bars
         for descBar in descBars:
             descBar.close()
 
-    # Not hold the return values anymore :3
-    lr = []
-    while not retQueue.empty():
-        lr.append(retQueue.get())
-    return lr
+        # Check if answers availible
+        if not retQueue.empty():
+            return retQueue.get()
+
+    return None, None
 
 def discrete_log_elliptic_curve_Fp(X, Y, ncores=4):
     with SharedMemoryManager() as memManager:
