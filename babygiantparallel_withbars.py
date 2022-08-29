@@ -352,25 +352,24 @@ def discrete_log_elliptic_curve_Fp(X, Y, ncores=4):
         # After <ncores> sublists of L-R is sorted, 
         # find the common element.
         print(f'[*] Search for elements with common X-coordinates in L-R...')
-        lr = searchLRArray(L, R, n, p, ncores)
+        l, r = searchLRArray(L, R, n, p, ncores)
 
         #################### PART 4: GET IT!!! ########################
-        # After <ncores> sublists of L-R is sorted, 
-        # find the common point with similar X-coordinates.
-        k = None
-        for l, r in lr:
-            # -- Case 1:  l*X = Y - r*n*X
-            k = l + r*n
-            if X*k == Y:
-                break
-            # -- Case 2: -l*X = Y - r*n*X
-            k = (r*n - l) % int(X.order())
-            if X*k == Y:
-                break
+        # -- Case 0: No answer.
+        if l == None:
+            raise ValueError(f'Cannot find the discrete_log({Y}, base={X}')
+
+        # -- Case 1:  l*X = Y - r*n*X
+        k = l + r*n
+        if X*k == Y:
+            return k
+
+        # -- Case 2: -l*X = Y - r*n*X
+        k = (r*n - l) % int(X.order())
+        if X*k == Y:
+            return k
         
-        # Just return it...
-        assert k != None, ValueError(f'Cannot find the discrete_log({Y}, base={X}')
-        return k
+        raise ValueError(f"If you've got this error message, this must be a bug.")
 
 if __name__ == '__main__':
     p = 0xa7926d93132516cc2d782df50f
