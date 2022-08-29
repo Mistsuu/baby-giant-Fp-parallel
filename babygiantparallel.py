@@ -1,4 +1,3 @@
-from ast import Yield
 from sage.all                   import *
 from tqdm                       import tqdm
 from multiprocessing            import Process, Queue
